@@ -26,7 +26,7 @@ public class Zone {
 
     /*Ez most létrehozza a pályát, NxM-es és feltölti, azt kell kitalálni hogy mi legyen az alap beállítás az egyes Areak-ra meg a population random hogy legyen, stb stb stb, 
     ez az area konstruktorába kell, */
-    public Zone(int n, int m) throws IOException{
+    public Zone(int n, int m){
         this.width=m;  //3
         this.height=n; //3
        
