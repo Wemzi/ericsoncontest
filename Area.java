@@ -11,7 +11,17 @@ public class Area {
     private int rowIndex;
     private ArrayList<Integer> prevInfectionRates = new ArrayList<>();
 
-
+    public void updateInfectionRates(int newRate){
+        if(this.prevInfectionRates.size()==10)
+        {
+            this.prevInfectionRates.add(0,newRate);
+            this.prevInfectionRates.remove(this.prevInfectionRates.size()-1);
+        }
+    }
+    
+    public ArrayList<Integer> getInfectionRates(){return this.prevInfectionRates;}
+    public int getCured(){return this.cured;}
+    public Coordinates getCoord(){return new Coordinates(columnIndex,rowIndex);}
     public int getRow(){return this.rowIndex;}
     public int getCol(){return this.columnIndex;}
 
@@ -28,11 +38,48 @@ public class Area {
         //Tudom hogy nem kell a this DAVID, de akkor is odairom mert: 1 jólesik, 2 jobban néz ki
     }
 
-    public Coordinates getCoord()
-    {
-        return new Coordinates(columnIndex,rowIndex);
+    public void setCured(int cured){
+        this.cured+=cured;
+        if(this.cured+this.infectionRate > 100)
+        {
+            this.infectionRate = 100-this.cured;
+        }
     }
 
+    public void setInfectionRate(int newInf){
+       this.infectionRate = newInf;
+       if(this.cured+this.infectionRate > 100)
+        {
+        this.cured = 100-this.infectionRate;
+        }
+    }
+    public int getPop()
+    {
+        return this.populationLevel;
+    }
+
+    public int getDistrict()
+    {
+        return district;
+    }
+
+    public int getinfectionRate()
+    {
+        return infectionRate;
+    }
+
+   
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Area)
+        {
+            return super.equals(obj) && this.columnIndex == ((Area)obj).columnIndex && this.rowIndex == ((Area)obj).rowIndex;
+        }
+        else return false;
+        
+    }
     //elvileg ez az országokhoz tartozó vakcina mennyiség az első integer az ország ID a második a mennyiség
 }
 

@@ -23,8 +23,21 @@ public static void main(String[] args) throws IOException {
       FactorGenerator factor4 = new FactorGenerator(Integer.parseInt(line[4]));
    line=reader.readLine().split(" ");
       int rows = Integer.parseInt(line[1]);
+
       int columns = Integer.parseInt(line[2]);
-   Zone zone = new Zone(rows,columns);
+
+      Zone zone = new Zone(rows,columns);
+      
+   for(int tick=0; tick<max_tick_sim; tick++){
+      for (ArrayList<Area> x : zone.getField()){
+         for (Area actual : x) 
+         {
+            zone.infection(tick, actual, factor2, factor3, factor4);
+            zone.heal(tick, actual, factor1);
+            System.out.print(actual.getinfectionRate() + " ");
+         }
+      }
+   }
    } catch (IOException e){System.out.println(e.getMessage());}
 }
 }
