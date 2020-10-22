@@ -13,9 +13,6 @@ A szimuláció egy négyzetrácsos pályán játszódik,
  /*Jogos, viszont ha létrehozzuk őket úgyis n*m-es ciklusban csináljuk...
   */
  import java.util.ArrayList;
- import java.io.BufferedReader; 
- import java.io.IOException; 
- import java.io.InputStreamReader; 
  import java.util.Collections;
  
 
@@ -53,7 +50,7 @@ public class Zone {
     public void infection(int curr_tick, Area actual, FactorGenerator factor2,FactorGenerator factor3, FactorGenerator factor4) //Ez viszaad egy számot, azt csinálja, hogy megkap egy areat és kiszámolja mennyi lesz az új fertőzöttségi ráta, majd beállítja az area új rátáját
     {
         
-        int newInfectionRate = getAverage(actual.getInfectionRates());
+        double newInfectionRate = getAverage(actual.getInfectionRates());
 
         newInfectionRate += (factor2.randFact() % 10);
         
@@ -63,11 +60,13 @@ public class Zone {
 
         newInfectionRate /= 100;
 
-        newInfectionRate = (int)Math.ceil(newInfectionRate);
+        int ret = (int)Math.ceil(newInfectionRate);
 
-       actual.setInfectionRate(newInfectionRate);
+       actual.setInfectionRate(ret);
         
     }
+
+    
 
     public int clamp(int val, int min, int max) {
         return Math.max(min, Math.min(max, val));
@@ -92,11 +91,12 @@ public class Zone {
 
 
     public void heal(int curr_tick, Area that, FactorGenerator factor1){
-        if(that.getCured() != 0){
+        if(that.getinfectionRate() != 0){
             if(curr_tick > this.width+this.height){
                 int cure = (int)(Math.floor((Collections.min(that.getInfectionRates()) * (factor1.randFact() % 10)) / 20.0));
                 that.setCured(cure);
             }
+            else that.setCured(0);
         }
     }
     
@@ -110,15 +110,14 @@ public class Zone {
         return res;
     }
 
-    public int getAverage(ArrayList<Integer> numbers)
+    public double getAverage(ArrayList<Integer> numbers)
     {
         int sum=0;
         for(int idx=0; idx<numbers.size(); idx++)
         {
             sum+= numbers.get(idx);
-            
         }
-        return sum;
+        return sum / numbers.size() ;
     }
     
     public ArrayList<Area> getNeighbours(Area that){

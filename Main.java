@@ -1,7 +1,5 @@
-import java.util.*;
 import java.util.ArrayList;
-import java.io.BufferedReader; 
-import java.io.InputStreamReader; 
+
 
 
 class Main { 
@@ -28,10 +26,12 @@ public static void main(String[] args) {
          {
             zone.infection(tick, actual, factor2, factor3, factor4);
             zone.heal(tick, actual, factor1);
-            System.out.print(actual.getinfectionRate() + " ");
+            if (tick==max_tick_sim-1) {System.out.print(actual.getinfectionRate()+ " ");}
          }
+         if (tick==max_tick_sim-1) {System.out.println("");}
       }
    }
+   
 }
 }
 
