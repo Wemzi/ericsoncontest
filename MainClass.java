@@ -25,11 +25,12 @@ class Reader {
     boolean needAnsw = false;
 }
 
-// a MainClass lesz az indulo
+
 public class MainClass {
     static private Scanner inScanner = new Scanner(System.in);
 
-    public static void readData(Reader reader) {
+    public static void readData(Reader reader) 
+    {
         String line;
         
         while(!(line = inScanner.nextLine()).isEmpty()) {

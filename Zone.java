@@ -67,9 +67,7 @@ public class Zone {
 
     
 
-    public int clamp(int val, int min, int max) {
-        return Math.max(min, Math.min(max, val));
-    }
+   
 
     public int getInfectionWillingness(Area actual, FactorGenerator factor3)
     {
@@ -98,17 +96,7 @@ public class Zone {
         else{that.setCured(0);}
         }
     }
-    
-    public double getAverage(ArrayList<Integer> numbers)
-    {
-        int sum=0;
-        for(int idx=0; idx<numbers.size(); idx++)
-        {
-            sum+= numbers.get(idx);
-        }
-        return sum / numbers.size() ;
-    }
-    
+
     public ArrayList<Area> getNeighbours(Area that){
         ArrayList<Area> ret = new ArrayList<>();
         int max_col= field.get(0).size()-1;
@@ -157,6 +145,21 @@ public class Zone {
             ret.add(field.get(that.getRow()+1).get(that.getCol()));
         }
         return ret;
-
     }
+
+    public int clamp(int val, int min, int max) {
+        return Math.max(min, Math.min(max, val));
+    }
+    
+    public double getAverage(ArrayList<Integer> numbers)
+    {
+        int sum=0;
+        for(int idx=0; idx<numbers.size(); idx++)
+        {
+            sum+= numbers.get(idx);
+        }
+        return sum / numbers.size() ;
+    }
+
+    
 }
