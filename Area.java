@@ -10,14 +10,39 @@ public class Area {
     private int columnIndex;
     private int rowIndex;
     private ArrayList<Integer> prevInfectionRates = new ArrayList<>();
+    private int neededArraySize;
+    private int widthHeight;
 
     public void updateInfectionRates(int newRate){
-        if(this.prevInfectionRates.size()==10)
+
+        if(this.prevInfectionRates.size()==neededArraySize)
         {
             this.prevInfectionRates.add(0,newRate);
             this.prevInfectionRates.remove(this.prevInfectionRates.size()-1);
         }
+        else{
+            this.prevInfectionRates.add(0,newRate);
+        }
     }
+
+    public ArrayList<Integer> infectionRatesToTen(){
+        if(this.prevInfectionRates.size()<10){return this.prevInfectionRates;}
+        else{
+        ArrayList<Integer> ret = new ArrayList<>();
+        for(int i = 0; i<10; i++){
+            ret.add(this.prevInfectionRates.get(i));
+        }
+        return ret;
+        }
+    }
+
+    public ArrayList<Integer> infectionRatesToWidthAndHeight(){
+        ArrayList<Integer> ret = new ArrayList<>();
+            for(int i=0; i<widthHeight; i++){
+                ret.add(this.prevInfectionRates.get(i));
+            }
+            return ret;
+        }
     
     public ArrayList<Integer> getInfectionRates(){return this.prevInfectionRates;}
     public int getCured(){return this.cured;}
@@ -25,7 +50,7 @@ public class Area {
     public int getRow(){return this.rowIndex;}
     public int getCol(){return this.columnIndex;}
 
-    public Area (int cIndex, int rIndex, int district, int infectionRate, int populationLevel)
+    public Area (int cIndex, int rIndex, int district, int infectionRate, int populationLevel, int arrsize)
     {
         this.cured = 0;
         this.countryVaccines = new HashMap<>();
@@ -35,23 +60,26 @@ public class Area {
         this.infectionRate=infectionRate;
         this.populationLevel=populationLevel;
         this.prevInfectionRates.add(infectionRate);
+        if(arrsize > 10){neededArraySize = arrsize;}
+        else {neededArraySize=10;}
+        widthHeight=arrsize;
         //Tudom hogy nem kell a this DAVID, de akkor is odairom mert: 1 jólesik, 2 jobban néz ki
     }
 
     public void setCured(int cured){
         this.cured+=cured;
-        if(this.cured+this.infectionRate > 100)
+        if(this.cured > 100)
         {
-            this.infectionRate = 100-this.cured;
+            this.cured = 100;
         }
     }
 
     public void setInfectionRate(int newInf){
-       this.infectionRate = newInf;
-       if(this.cured+this.infectionRate > 100)
-        {
-        this.cured = 100-this.infectionRate;
+        if(this.cured+(this.infectionRate+newInf) > 100){
+            this.infectionRate += 100-this.infectionRate-this.cured;
         }
+        else{this.infectionRate+=newInf;}
+        this.updateInfectionRates(newInf);
     }
     public int getPop()
     {
@@ -80,15 +108,4 @@ public class Area {
         else return false;
         
     }
-    //elvileg ez az országokhoz tartozó vakcina mennyiség az első integer az ország ID a második a mennyiség
 }
-
-
- 
-/*infection(curr_tick, coord) => ceil(=(avg(i = [1 .. mini(factor2() % 10 + 10, curr_tick)], infection(curr_tick - i, coord)) + 
-    sum(c = [coord, neighbours(coord)]; t = factor3() % 7 + 3, tick_info[curr_tick-1, c].infection_rate > 
-        (start_info[coord].district != start_info[c].district ? 2 : 
-            coord != c ? 1 : 0) * t ? 
-       clamp(start_info[coord].population - start_info[c].population, 0, 2) + 1 : 0)) * (factor4() % 25 + 50) / 100.0)
-
-       */
