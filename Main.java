@@ -25,11 +25,39 @@ public static void main(String[] args) {
       int columns = Integer.parseInt(line[2]);
 
       Zone zone = new Zone(rows,columns);
+
    boolean isRequestDone = true;
    int neededTick=0;
    ArrayList<String> lineSplitted = new ArrayList<>();
-   for(int tick=1; tick<max_tick_sim+1; tick++){
-      if(isRequestDone){
+   String[] firstLine = System.console().readLine().split(" ");
+   System.console().readLine();
+   if(Integer.parseInt(firstLine[2])==0){
+      for (ArrayList<Area> x : zone.getField()){
+         for (Area actual : x) 
+         {
+            System.out.print(actual.getinfectionRate()+ " ");
+         }
+         System.out.println();
+      }
+      System.out.println(".");      
+      }
+   else
+   {
+      isRequestDone=!isRequestDone;
+      neededTick=Integer.parseInt(firstLine[2]);
+      lineSplitted = new ArrayList<>();
+      for (String tmp : firstLine)
+      {
+         lineSplitted.add(tmp);
+      }
+   }
+
+
+  
+   for(int tick=1; tick<max_tick_sim+1; tick++)
+   {
+      if(isRequestDone)
+      {
       String[] lines = System.console().readLine().split(" ");
       lineSplitted = new ArrayList<>();
       for (String tmp : lines)
@@ -44,9 +72,11 @@ public static void main(String[] args) {
       if(neededTick==tick){System.out.println(String.format("RES %d %d %d", Integer.parseInt(lineSplitted.get(1)), 
       Integer.parseInt(lineSplitted.get(2)), Integer.parseInt(lineSplitted.get(3)))); isRequestDone=!isRequestDone;}
 
-      for (ArrayList<Area> x : zone.getField()){
+      for (ArrayList<Area> x : zone.getField())
+      {
          for (Area actual : x) 
          {
+            if(tick==0) break;
             zone.infection(tick, actual, factor2, factor3, factor4);
             zone.heal(tick, actual, factor1);
             if (neededTick==tick) {System.out.print(actual.getinfectionRate()+ " "); }
@@ -54,6 +84,7 @@ public static void main(String[] args) {
          if (neededTick==tick) System.out.println();
       }
       if(neededTick==tick)System.out.println(".");
+
    }
    
 }

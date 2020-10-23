@@ -43,6 +43,7 @@ public class Zone {
 
         field.add(new ArrayList<Area>(res));
         }
+        System.console().readLine();
     }
     public ArrayList<ArrayList<Area>> getField(){
         return this.field;
