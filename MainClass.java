@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 
 
-class Main { 
+class MainClass { 
 public static void main(String[] args) {
    final String teamToken = "AYHsGhb17k";
    //final int seed = 0;
