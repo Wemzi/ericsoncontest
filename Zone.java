@@ -37,7 +37,8 @@ public class Zone {
                                  Integer.parseInt(splitted[2]),
                                  Integer.parseInt(splitted[3]),
                                  Integer.parseInt(splitted[4]),
-                                 Integer.parseInt(splitted[5])));             
+                                 Integer.parseInt(splitted[5]),
+                                 width+height));             
             }
 
         field.add(new ArrayList<Area>(res));
@@ -50,7 +51,7 @@ public class Zone {
     public void infection(int curr_tick, Area actual, FactorGenerator factor2,FactorGenerator factor3, FactorGenerator factor4) //Ez viszaad egy számot, azt csinálja, hogy megkap egy areat és kiszámolja mennyi lesz az új fertőzöttségi ráta, majd beállítja az area új rátáját
     {
         
-        double newInfectionRate = getAverage(actual.getInfectionRates());
+        double newInfectionRate = getAverage(actual.infectionRatesToTen());
 
         newInfectionRate += (factor2.randFact() % 10);
         
@@ -60,9 +61,7 @@ public class Zone {
 
         newInfectionRate /= 100;
 
-        int ret = (int)Math.ceil(newInfectionRate);
-
-       actual.setInfectionRate(ret);
+       actual.setInfectionRate((int)Math.ceil(newInfectionRate));
         
     }
 
@@ -79,7 +78,7 @@ public class Zone {
         int infWillness = 0;
         for (Area that : c) {
             long t = factor3.randFact() % 7 + 3;
-            int prevInfection = actual.getInfectionRates().get(actual.getInfectionRates().size()-1);
+            int prevInfection = that.getInfectionRates().get(0);
             int distance = (actual.equals(that) ? 0 : actual.getDistrict()==that.getDistrict() ? 1 : 2);
             int popDiff = actual.getPop() - that.getPop(); //start_info[coord].population - start_info[c].population, 0, 2 evInfection > (t*distance)){
         if (prevInfection > (t*distance)){
@@ -93,23 +92,13 @@ public class Zone {
     public void heal(int curr_tick, Area that, FactorGenerator factor1){
         if(that.getinfectionRate() != 0){
             if(curr_tick > this.width+this.height){
-                int cure = (int)(Math.floor((Collections.min(that.getInfectionRates()) * (factor1.randFact() % 10)) / 20.0));
+                int cure = (int)(Math.floor((Collections.min(that.infectionRatesToWidthAndHeight()) * (factor1.randFact() % 10)) / 20.0));
                 that.setCured(cure);
             }
-            else that.setCured(0);
+        else{that.setCured(0);}
         }
     }
     
-    public ArrayList<Integer> createListFromOneToN(int n)
-    {
-        ArrayList <Integer> res = new ArrayList<Integer>();
-        for(int idx=1;idx<=n;idx++)
-        {
-            res.add(idx);
-        }
-        return res;
-    }
-
     public double getAverage(ArrayList<Integer> numbers)
     {
         int sum=0;

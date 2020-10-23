@@ -20,15 +20,15 @@ public static void main(String[] args) {
 
       Zone zone = new Zone(rows,columns);
 
-   for(int tick=0; tick<max_tick_sim; tick++){
+   for(int tick=1; tick<max_tick_sim+1; tick++){
       for (ArrayList<Area> x : zone.getField()){
          for (Area actual : x) 
          {
             zone.infection(tick, actual, factor2, factor3, factor4);
             zone.heal(tick, actual, factor1);
-            if (tick==max_tick_sim-1) {System.out.print(actual.getinfectionRate()+ " ");}
+            if (tick==max_tick_sim) {System.out.print(actual.getinfectionRate()+ " ");}
          }
-         if (tick==max_tick_sim-1) {System.out.println("");}
+         if (tick==max_tick_sim) {System.out.println("");}
       }
    }
    
