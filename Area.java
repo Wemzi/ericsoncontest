@@ -46,7 +46,6 @@ public class Area {
     
     public ArrayList<Integer> getInfectionRates(){return this.prevInfectionRates;}
     public int getCured(){return this.cured;}
-    public Coordinates getCoord(){return new Coordinates(columnIndex,rowIndex);}
     public int getRow(){return this.rowIndex;}
     public int getCol(){return this.columnIndex;}
 
