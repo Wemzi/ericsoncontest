@@ -14,15 +14,7 @@ public class Area {
     private int widthHeight;
 
     public void updateInfectionRates(int newRate){
-
-        if(this.prevInfectionRates.size()==neededArraySize)
-        {
             this.prevInfectionRates.add(0,newRate);
-            this.prevInfectionRates.remove(this.prevInfectionRates.size()-1);
-        }
-        else{
-            this.prevInfectionRates.add(0,newRate);
-        }
     }
 
     public ArrayList<Integer> infectionRatesToTen(){
@@ -49,7 +41,7 @@ public class Area {
     public int getRow(){return this.rowIndex;}
     public int getCol(){return this.columnIndex;}
 
-    public Area (int cIndex, int rIndex, int district, int infectionRate, int populationLevel, int arrsize)
+    public Area (int rIndex, int cIndex, int district, int infectionRate, int populationLevel, int arrsize)
     {
         this.cured = 0;
         this.countryVaccines = new HashMap<>();

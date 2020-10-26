@@ -24,8 +24,8 @@ public class Zone {
     /*Ez most létrehozza a pályát, NxM-es és feltölti, azt kell kitalálni hogy mi legyen az alap beállítás az egyes Areak-ra meg a population random hogy legyen, stb stb stb, 
     ez az area konstruktorába kell, */
     public Zone(int n, int m){
-        this.width=m;  //3
-        this.height=n; //3
+        this.width=m;  
+        this.height=n;
        
         for (int i = 0; i < height; i++){
             ArrayList<Area> res = new ArrayList<>();
@@ -58,7 +58,7 @@ public class Zone {
         
         newInfectionRate += getInfectionWillingness(actual, factor3);
 
-        newInfectionRate *= (factor4.randFact() % 25)+50 ;
+        newInfectionRate *= (factor4.randFact() % 25) +50 ;
 
         newInfectionRate /= 100;
 
@@ -73,15 +73,15 @@ public class Zone {
     public int getInfectionWillingness(Area actual, FactorGenerator factor3)
     {
         ArrayList<Area> c = getNeighbours(actual);
-        c.add(actual);
         int infWillness = 0;
+        long t = factor3.randFact() % 7 + 3;
         for (Area that : c) {
-            long t = factor3.randFact() % 7 + 3;
-            int prevInfection = that.getInfectionRates().get(0);
+            int prevInfection = actual.getInfectionRates().get(0);
             int distance = (actual.equals(that) ? 0 : actual.getDistrict()==that.getDistrict() ? 1 : 2);
             int popDiff = actual.getPop() - that.getPop(); //start_info[coord].population - start_info[c].population, 0, 2 evInfection > (t*distance)){
         if (prevInfection > (t*distance)){
-            infWillness += clamp(actual.getPop()-that.getPop(),0,2)+1;
+            infWillness += clamp(popDiff,0,2)+1;
+            System.out.println(clamp(popDiff,0,2)+1);
             }
         }
         return infWillness;

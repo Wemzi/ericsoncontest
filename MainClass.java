@@ -25,7 +25,7 @@ public static void main(String[] args) {
       int columns = Integer.parseInt(line[2]);
 
       Zone zone = new Zone(rows,columns);
-
+   
    boolean isRequestDone = true;
    int neededTick=0;
    ArrayList<String> lineSplitted = new ArrayList<>();
@@ -56,6 +56,7 @@ public static void main(String[] args) {
   
    for(int tick=1; tick<max_tick_sim+1; tick++)
    {
+      System.out.println( "Factors: " + factor1.getFact() + " " + factor2.getFact() + " " + factor3.getFact() + " " + factor4.getFact() );
       if(isRequestDone)
       {
       String[] lines = System.console().readLine().split(" ");
@@ -74,6 +75,7 @@ public static void main(String[] args) {
 
       for (ArrayList<Area> x : zone.getField())
       {
+         
          for (Area actual : x) 
          {
             if(tick==0) break;
@@ -100,9 +102,15 @@ class FactorGenerator {
        this.factor = factor;
    }
 
+   public long getFact()
+   {
+      return factor;
+   }
+
    public long randFact()
    {
-       factor = (factor * 48271 % 0x7fffffff);
-       return factor;
+      long ret = factor;
+      factor = (factor * 48271 % 0x7fffffff);
+      return ret;
    }
 }
